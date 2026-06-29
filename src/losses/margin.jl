@@ -131,8 +131,7 @@ L(a) = \ln (1 + e^{-a})
 struct LogitMarginLoss <: MarginLoss end
 (loss::LogitMarginLoss)(agreement::Number) = log1p(exp(-agreement))
 deriv(loss::LogitMarginLoss, agreement::Number) = -one(agreement) / (one(agreement) + exp(agreement))
-deriv2(loss::LogitMarginLoss, agreement::Number) = (eᵗ = exp(agreement);
-eᵗ / abs2(one(eᵗ) + eᵗ))
+deriv2(loss::LogitMarginLoss, agreement::Number) = (eᵗ=exp(agreement); eᵗ / abs2(one(eᵗ) + eᵗ))
 
 isunivfishercons(::LogitMarginLoss) = true
 isdifferentiable(::LogitMarginLoss) = true
@@ -526,7 +525,7 @@ different than the [SmoothedL1HingeLoss](@ref). It is Lipschitz
 continuous and convex, but not strictly convex.
 
 ```math
-L(a) = \begin{cases} 1 - a & \quad \text{if } a \ge \frac{q}{q+1} \\ \frac{1}{a^q} \frac{q^q}{(q+1)^{q+1}} & \quad \text{otherwise}\\ \end{cases}
+L(a) = \begin{cases} 1 - a & \quad \text{if } a \le \frac{q}{q+1} \\ \frac{1}{a^q} \frac{q^q}{(q+1)^{q+1}} & \quad \text{otherwise}\\ \end{cases}
 ```
 
 ---
